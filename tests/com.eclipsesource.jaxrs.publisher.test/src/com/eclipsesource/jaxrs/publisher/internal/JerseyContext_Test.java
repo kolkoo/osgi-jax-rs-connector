@@ -107,7 +107,7 @@ public class JerseyContext_Test {
     Object resource = new Object();
     Set<Object> list = new HashSet<Object>();
     list.add( resource );
-    when( rootApplication.getSingletons() ).thenReturn( list );
+    when( rootApplication.getResources() ).thenReturn( list );
     jerseyContext.addResource( resource );
     
     List<Object> resources = jerseyContext.eliminate();
@@ -124,7 +124,7 @@ public class JerseyContext_Test {
     Object resource = new Object();
     Set<Object> list = new HashSet<Object>();
     list.add( resource );
-    when( rootApplication.getSingletons() ).thenReturn( list );
+    when( rootApplication.getResources() ).thenReturn( list );
     jerseyContext.addResource( resource );
     
     List<Object> resources = jerseyContext.eliminate();

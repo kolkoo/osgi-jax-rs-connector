@@ -36,6 +36,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.HttpService;
 
+import com.eclipsesource.jaxrs.publisher.ServletConfigurationService;
+
 
 @RunWith( MockitoJUnitRunner.class )
 public class JAXRSConnector_Test {
@@ -55,7 +57,7 @@ public class JAXRSConnector_Test {
   public void setUp() {
     JAXRSConnector original = new JAXRSConnector( bundleContext );
     connector = spy( original );
-    doReturn( jerseyContext ).when( connector ).createJerseyContext( any( HttpService.class ), anyString(), eq( false ), anyLong() );
+    doReturn( jerseyContext ).when( connector ).createJerseyContext( any( HttpService.class ), anyString(), eq( false ), anyLong(), any (ServletConfigurationService.class));
   }
   
   @Test
@@ -120,10 +122,10 @@ public class JAXRSConnector_Test {
     connector.updateConfiguration( "/test", false, 23 );
     
     InOrder order = inOrder( connector );
-    order.verify( connector ).createJerseyContext( any( HttpService.class ), anyString(), eq( false ), eq( 2500L ) );
+    order.verify( connector ).createJerseyContext( any( HttpService.class ), anyString(), eq( false ), eq( 2500L ), any(ServletConfigurationService.class) );
     order.verify( connector ).doRemoveHttpService( any( HttpService.class ) );
     order.verify( connector ).doAddHttpService( any( ServiceReference.class ) );
-    order.verify( connector ).createJerseyContext( any( HttpService.class ), eq( "/test" ), eq( false ), eq( 23L ) );
+    order.verify( connector ).createJerseyContext( any( HttpService.class ), eq( "/test" ), eq( false ), eq( 23L ), any(ServletConfigurationService.class) );
   }
   
   @Test
